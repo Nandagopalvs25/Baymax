@@ -53,7 +53,7 @@ export default function Upload() {
       }
     } catch (error) {
       console.log("Error occurred: ", error);
-      alert("No Patient data found...");
+    //   alert("No Patient data found...");
     } finally {
       setIsLoading(false);
     }
