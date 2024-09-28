@@ -86,7 +86,7 @@ class AiChatView(APIView):
             records=Record.objects.filter(user=userr)
             messages=Message.objects.filter(user=userr)
             for i in messages:
-                print(i.content)
+                print(i.content+"[ message asked on "+i.date.strftime('%m/%d/%Y') +"]")
             summary=""
             for i in records:
                summary=summary+"\n"
@@ -101,11 +101,11 @@ class AiChatView(APIView):
              }
             genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
             model_finetuned = genai.GenerativeModel(
-                    model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
+                    model_name="tunedModels/baymaxpatient20-i73ttp34hyo",
                     generation_config=generation_config,
                 )
 
-            chat_session = model_finetuned.start_chat(history=[])
+           
             response=model_finetuned.generate_content([message,summary]).text
             return HttpResponse(response)
                     
@@ -124,7 +124,7 @@ class AiChatView(APIView):
              }
         genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
         model_finetuned = genai.GenerativeModel(
-                    model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
+                    model_name="tunedModels/baymaxpatient20-i73ttp34hyo",
                     generation_config=generation_config,
                 )
 
