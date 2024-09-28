@@ -1,5 +1,5 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,7 +10,8 @@ import {
 
 import LoginPage from "./pages/loginPage";
 import SignupPage from "./pages/signupPage";
-import { useEffect, useState } from "react";
+import HomePage from "./pages/homePage";
+import LandingPage from "./pages/landingPage";
 
 function App() {
   const [userKey, setUserKey] = useState(localStorage.getItem("key") || null);
@@ -24,12 +25,15 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    // <Router>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/homePage/*" element={<HomePage />} />
+
       </Routes>
-    </Router>
+    // </Router>
   );
 }
 

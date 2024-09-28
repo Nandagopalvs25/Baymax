@@ -42,7 +42,7 @@ export default function SignupPage({ onLogin }) {
       if (response.status === 204) {
         setIsSuccessModal(true);
         setTimeout(() => {
-          navigate("/login"); // You can navigate to the login page or another page
+          navigate("/homePage");
         }, 2000);
       } else {
         setError("An unexpected response was received. Please try again.");
