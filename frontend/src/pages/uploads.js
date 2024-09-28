@@ -24,6 +24,7 @@ export default function Upload() {
   const [patientSummary, setPatientSummary] = useState("");
   const [patientTags, setPatientTags] = useState([]);
   const [summaryLoading, setSummaryLoading] = useState(false);
+  const [explandedData, setExpandedData] = useState("F");
 
   const fetchData = async () => {
     if (isLoading) return;
@@ -53,7 +54,7 @@ export default function Upload() {
       }
     } catch (error) {
       console.log("Error occurred: ", error);
-    //   alert("No Patient data found...");
+      //   alert("No Patient data found...");
     } finally {
       setIsLoading(false);
     }
@@ -186,11 +187,32 @@ export default function Upload() {
               uploadData?.map((data, index) => (
                 <div
                   key={index}
-                  className="bg-slate-200 p-3 rounded-lg cursor-pointer hover:bg-slate-300 transition-all"
-                  //   onClick={() => handlePatientClick(index)}
+                  className="relative bg-slate-200 p-3 rounded-lg cursor-pointer hover:bg-slate-300 transition-all"
+                  onClick={() => setExpandedData(index)}
                 >
                   <span>{data?.name}</span>
+                  <span className="absolute right-2 bottom-1 sm:bottom-2 text-[10px] sm:text-[12px]">
+                    {data?.date}
+                  </span>
                   {/* <span>{highlightMatch(patient.name, searchPatient)}</span> */}
+                  {explandedData == index && (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[14px]">
+                        <strong>Summary: </strong>
+                        {data?.summary}
+                      </span>
+                      {/* <div className="w-full"> */}
+                      <a
+                        className="flex items-center w-24 gap-1 p-1 px-2 rounded-md bg-gradient-to-r from-[#5e99ebc0] to-[#2a39e2a3] cursor-pointer"
+                        href={`${data?.url}`}
+                        target="_blank"
+                      >
+                        Report
+                        <FiExternalLink />
+                      </a>
+                      {/* </div> */}
+                    </div>
+                  )}
                 </div>
               ))
             ) : (
