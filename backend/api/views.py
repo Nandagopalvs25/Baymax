@@ -26,7 +26,6 @@ class UserList(generics.ListCreateAPIView):
 
 
 class RecordView(APIView):
-   
     def post(self, request, format=None):
            userr=User.objects.get(id=request.user.id)
            name=request.data["name"]
@@ -70,13 +69,36 @@ class RecordView(APIView):
 
 class RelationView(APIView):
    
-    def post(self, request, format=None):
+    def post(self, request):
            userr=User.objects.get(id=request.user.id)
            grelative=User.objects.get(id=request.data['id'])
            grelation_type=request.data["relation_type"]
            Relation.objects.create(user=userr,relative=grelative,relation_type=grelation_type)
            return HttpResponse("SUcess")
        
+class AiChatView(APIView):
+     def post(self, request):
+        userr=User.objects.get(id=request.user.id)
+        message=request.data["msg"]
+        generation_config = {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 64,
+            "max_output_tokens": 8192,
+            "response_mime_type": "text/plain",
+        }
+        genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+        model_finetuned = genai.GenerativeModel(
+                 model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
+                 generation_config=generation_config,
+        )
+
+        chat_session = model_finetuned.start_chat(history=[])
+        response=model_finetuned.generate_content(message).text
+        return HttpResponse(response)
+        
+            
+    
 def drive_link_to_download_url(drive_link):
     file_id = drive_link.split('/d/')[1].split('/')[0]
     return f"https://drive.google.com/uc?export=download&id={file_id}"
