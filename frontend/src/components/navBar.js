@@ -5,14 +5,20 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between p-5 w-screen bg-black bg-opacity-20">
+    <div className="flex justify-between p-5 w-screen bg-black bg-opacity-40">
       <div>
-        <span
+        {/* <span
           className="text-[40px] font-bold font-mono border-2 rounded-2xl p-3 text-center bg-red-400 cursor-pointer"
           onClick={() => navigate("/homepage")}
         >
           Baymax
-        </span>
+        </span> */}
+        <img
+        className="mx-auto h-20 w-auto cursor-pointer"
+        src="/baymax.png"
+        alt="Your Company"
+        onClick={() => navigate("/")}
+      />
       </div>
       <div className="flex items-center gap-2">
         <button

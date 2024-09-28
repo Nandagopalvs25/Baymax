@@ -173,7 +173,7 @@ export default function Upload() {
           className="p-1 px-2 sm:w-96 rounded-lg border border-slate-400"
         />
         <button
-          className="p-1 sm:p-2 sm:px-4 rounded-lg bg-gradient-to-r from-[#e09090be] to-[#ec3030cf]"
+          className="p-1 sm:p-2 sm:px-4 rounded-lg bg-gradient-to-tr from-[#88f658db] to-[#426b0c]"
           onClick={() => setUploadModal(true)}
         >
           Upload
