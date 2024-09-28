@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics
 from .serializers import UserSerializer,RecordSerializer
 from rest_framework.views import APIView
-from .models import Record,Relation
+from .models import Record,Relation,Message
 import os
 import google.generativeai as genai
 import requests
@@ -28,10 +28,10 @@ class UserList(generics.ListCreateAPIView):
 class RecordView(APIView):
     def post(self, request, format=None):
            userr=User.objects.get(id=request.user.id)
+           print(request.user.id)
            name=request.data["name"]
            url=request.data["url"]
-           date=request.data["date"]
-           record_type=request.data["record_type"]
+           #record_type=request.data["record_type"]
            genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
            generation_config = {
              "temperature": 1,
@@ -52,7 +52,7 @@ class RecordView(APIView):
            response = model.generate_content(["Generate summary.", sample_pdf])
            print(response.text)
            
-           Record.objects.create(user=userr,name=name,url=url,date=date,record_type=record_type,summary=response.text)
+           Record.objects.create(user=userr,name=name,url=url,summary=response.text)
            print(userr.id)
            return HttpResponse("SUcess")
        
@@ -79,23 +79,59 @@ class RelationView(APIView):
 class AiChatView(APIView):
      def post(self, request):
         userr=User.objects.get(id=request.user.id)
+        date=request.data["date"]
         message=request.data["msg"]
+        Message.objects.create(user=userr,content=message)
+        if date=="":
+            records=Record.objects.filter(user=userr)
+            messages=Message.objects.filter(user=userr)
+            for i in messages:
+                print(i.content)
+            summary=""
+            for i in records:
+               summary=summary+"\n"
+               summary=summary+i.summary
+            print(summary)
+            generation_config = {
+               "temperature": 1,
+               "top_p": 0.95,
+                "top_k": 64,
+                "max_output_tokens": 8192,
+                "response_mime_type": "text/plain",
+             }
+            genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+            model_finetuned = genai.GenerativeModel(
+                    model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
+                    generation_config=generation_config,
+                )
+
+            chat_session = model_finetuned.start_chat(history=[])
+            response=model_finetuned.generate_content([message,summary]).text
+            return HttpResponse(response)
+                    
+        records=Record.objects.filter(user=userr).filter(date=date)
+        summary=""
+        for i in records:
+               summary=summary+"\n"
+               summary=summary+i.summary
+        print(summary)
         generation_config = {
-            "temperature": 1,
-            "top_p": 0.95,
-            "top_k": 64,
-            "max_output_tokens": 8192,
-            "response_mime_type": "text/plain",
-        }
+               "temperature": 1,
+               "top_p": 0.95,
+                "top_k": 64,
+                "max_output_tokens": 8192,
+                "response_mime_type": "text/plain",
+             }
         genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
         model_finetuned = genai.GenerativeModel(
-                 model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
-                 generation_config=generation_config,
-        )
+                    model_name="tunedModels/baymaxpatient20-242d0d1fs00n",
+                    generation_config=generation_config,
+                )
 
         chat_session = model_finetuned.start_chat(history=[])
-        response=model_finetuned.generate_content(message).text
+        response=model_finetuned.generate_content([message,summary]).text
         return HttpResponse(response)
+        
         
             
     

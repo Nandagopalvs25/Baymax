@@ -13,5 +13,5 @@ class UserSerializer(serializers.ModelSerializer):
 class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Record
-        fields=["name","user"]
+        fields=["name","date","summary","url"]
 
