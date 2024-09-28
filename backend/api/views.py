@@ -10,12 +10,14 @@ import google.generativeai as genai
 import requests
 import gdown
 from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Create your views here.
 
 
 def index(request):
+    send_mail("Day Update", "Helloo", settings.EMAIL_HOST_USER, ["nandagopalvs12@gmail.com"])
     return HttpResponse("Hello WOrld")
 
 class UserList(generics.ListCreateAPIView):
