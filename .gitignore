@@ -1,0 +1,4 @@
+hackenv
+backend/db.sqlite3
+backend/backend/__pycache__
+backend/api/__pycache__
