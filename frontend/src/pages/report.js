@@ -27,7 +27,7 @@ export default function Report() {
     const key = localStorage.getItem("key");
 
     if (!key) {
-      alert("Key not found...");
+      console.log("Key not found...");
       setIsLoading(false);
       return;
     }
@@ -72,7 +72,7 @@ export default function Report() {
     const key = localStorage.getItem("key");
 
     if (!key) {
-      alert("Key not found...");
+      console.log("Key not found...");
       setIsLoading(false);
       return;
     }
