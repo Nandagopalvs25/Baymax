@@ -100,13 +100,13 @@ class AiChatView(APIView):
                 "response_mime_type": "text/plain",
              }
             genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
-            model_finetuned = genai.GenerativeModel(
-                    model_name="tunedModels/baymaxpatient20-i73ttp34hyo",
-                    generation_config=generation_config,
-                )
-
-           
-            response=model_finetuned.generate_content([message,summary]).text
+            model = genai.GenerativeModel(
+                  model_name="gemini-1.5-flash",
+                  system_instruction="""You are a ai companion, talk to the user normally, and if the user asks any question about himself you can refere to the context provided. Be a good listener and respons appropriately based on the users message""",
+                  generation_config=generation_config,
+           )
+            input_text = f"Context: {summary}\nUser message: {message}"
+            response=model.generate_content([input_text]).text
             return HttpResponse(response)
                     
         records=Record.objects.filter(user=userr).filter(date=date)
@@ -123,13 +123,13 @@ class AiChatView(APIView):
                 "response_mime_type": "text/plain",
              }
         genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
-        model_finetuned = genai.GenerativeModel(
-                    model_name="tunedModels/baymaxpatient20-i73ttp34hyo",
-                    generation_config=generation_config,
-                )
-
-        chat_session = model_finetuned.start_chat(history=[])
-        response=model_finetuned.generate_content([message,summary]).text
+        model = genai.GenerativeModel(
+                  model_name="gemini-1.5-flash",
+                  system_instruction="""You are a ai companion, talk to the user normally, and if the user asks any question about himself you can refere to the context provided. Be a good listener and respons appropriately based on the users message""",
+                  generation_config=generation_config,
+           )
+        input_text = f"Context: {summary}\nUser message: {message}"
+        response=model.generate_content([input_text]).text
         return HttpResponse(response)
         
         
