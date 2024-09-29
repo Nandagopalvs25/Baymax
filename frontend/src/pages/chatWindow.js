@@ -39,7 +39,7 @@ const ChatWindow = () => {
       console.log("response: ", response);
 
       if (response?.data) {
-        return response?.data; 
+        return response?.data;
       } else {
         console.error("Invalid response data:", response.data);
         // alert("Invalid credentials. Please try again.");
@@ -54,6 +54,7 @@ const ChatWindow = () => {
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
+    setInputMessage("");
 
     // Add user message to the chat
     const newMessage = {
@@ -67,15 +68,14 @@ const ChatWindow = () => {
     const responseMessage = await sendMessageToApi(selectedDate, inputMessage);
 
     // Add API response to the chat
-    const apiMessage = {
-      type: "bot",
-      content: responseMessage,
-      date: selectedDate,
-    };
-    setMessages((prevMessages) => [...prevMessages, apiMessage]);
-
-    // Reset the input field
-    setInputMessage("");
+    if (responseMessage) {
+      const apiMessage = {
+        type: "bot",
+        content: responseMessage,
+        date: selectedDate,
+      };
+      setMessages((prevMessages) => [...prevMessages, apiMessage]);
+    }
   };
 
   const handleKeyPress = (event) => {
@@ -86,8 +86,8 @@ const ChatWindow = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+    <div className="flex justify-center items-center p-3 w-screen sm:w-full h-screen bg-gray-100">
+      <div className="rounded-lg shadow-lg p-6 max-w-xl w-full bg-gradient-to-tr from-[#d35858ef] to-[#c78686c9]">
         <h2 className="text-2xl font-semibold text-center mb-4">
           Chat with Baymax
         </h2>
@@ -128,18 +128,18 @@ const ChatWindow = () => {
           )}
         </div>
 
-        <div className="flex">
+        <div className="flex max-w-full">
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="flex-1 p-2 border rounded-md"
+            className="flex-1 p-2 border rounded-md max-sm:w-20"
             placeholder="Type your message..."
           />
           <button
             onClick={handleSendMessage}
-            className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md"
+            className="ml-2 bg-gradient-to-tr from-[#88f658db] to-[#426b0c] text-white px-4 py-2 rounded-md"
           >
             Send
           </button>
