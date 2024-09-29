@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+      'corsheaders',
 
 ]
 
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+      'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 
 ]
 
@@ -74,24 +77,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                 
+
             ],
         },
     },
 ]
 AUTHENTICATION_BACKENDS = [
-    
+
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by email
     'allauth.account.auth_backends.AuthenticationBackend',
-    
+
 ]
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 REST_FRAMEWORK = {
-      'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
@@ -148,11 +151,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_ID = 1
-#AUTH_USER_MODEL = 'api.CustomUser'
+# AUTH_USER_MODEL = 'api.CustomUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER ='ukwpyqibqmmwyqbk'
-EMAIL_HOST_PASSWORD = 'wastedev2005@gmail.com'
+EMAIL_HOST_USER = 'nandagopalvs12@gmail.com'
+EMAIL_HOST_PASSWORD = 'lhwqnfwkbmxxgqbf'
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
