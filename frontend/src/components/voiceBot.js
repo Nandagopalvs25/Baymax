@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { FaMicrophone } from "react-icons/fa6";
 import { BsFillStopCircleFill } from "react-icons/bs";
+import axios from "axios";
 
-const VoiceRecorder = () => {
+const VoiceRecorder = ({
+  padding,
+  size,
+  inputMessage = () => {},
+  onSuccess = () => {},
+  onFailure = () => {},
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [recognition, setRecognition] = useState(null);
+
+  const key = localStorage.getItem("key");
 
   const initializeRecognition = () => {
     const recognitionInstance = new window.webkitSpeechRecognition(); // Use 'SpeechRecognition' for non-Chrome browsers
@@ -19,6 +28,7 @@ const VoiceRecorder = () => {
         .map((result) => result.transcript)
         .join("");
       setTranscript(transcriptText);
+      inputMessage(transcriptText);
     };
 
     recognitionInstance.onerror = (event) => {
@@ -30,6 +40,7 @@ const VoiceRecorder = () => {
       // Call API to upload the transcript once the recording stops
       if (transcript) {
         uploadTranscript(transcript);
+        inputMessage(transcript);
       }
     };
 
@@ -52,22 +63,32 @@ const VoiceRecorder = () => {
   };
 
   const uploadTranscript = async (text) => {
+    const data = {
+      msg: text,
+      date: "",
+    };
+
+    console.log("Voicedata: ", data);
+
     try {
       console.log("Uploading transcript to the backend...");
 
-      const response = await fetch("https://your-backend-api.com/upload", {
-        method: "POST",
+      const response = await axios.post("http://127.0.0.1:8000/aichat/", data, {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `token ${key}`,
         },
-        body: JSON.stringify({ transcript: text }),
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Transcript uploaded successfully:", data);
+      console.log("response: ", response);
+
+      if (response?.data) {
+        setTranscript("");
+        onSuccess();
+        return response?.data;
       } else {
-        console.error("Error uploading transcript:", data);
+        console.error("Invalid response data:", response.data);
+        onFailure();
+        // alert("Invalid credentials. Please try again.");
       }
     } catch (error) {
       console.error("Error uploading transcript:", error);
@@ -81,15 +102,15 @@ const VoiceRecorder = () => {
   }, [recognition]);
 
   return (
-    <div className="p-5 relative">
+    <div className=" relative">
       <button
         onClick={toggleRecording}
-        className="flex items-center justify-center bg-green-500 p-5 rounded-full cursor-pointer"
+        className={`flex items-center justify-center bg-green-500 p-${padding} rounded-full cursor-pointer`}
       >
         {isRecording ? (
-          <BsFillStopCircleFill size={30} />
+          <BsFillStopCircleFill size={size} />
         ) : (
-          <FaMicrophone size={30} />
+          <FaMicrophone size={size} />
         )}
       </button>
       {transcript && (

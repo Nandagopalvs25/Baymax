@@ -3,13 +3,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { json } from "react-router-dom";
+import VoiceRecorder from "../components/voiceBot";
 // import './App.css';  // Add any custom styling you may need
 
 const ChatWindow = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
-
+  
   const key = localStorage.getItem("key");
 
   const sendMessageToApi = async (date, message) => {
@@ -85,6 +86,12 @@ const ChatWindow = () => {
     }
   };
 
+  const handleTranscript = (transcript) => {
+    console.log("transcript: ", transcript);
+
+    setInputMessage(transcript);
+  };
+
   return (
     <div className="flex justify-center items-center p-3 w-screen sm:w-full h-screen bg-gray-100">
       <div className="rounded-lg shadow-lg p-6 max-w-xl w-full bg-gradient-to-tr from-[#d35858ef] to-[#c78686c9]">
@@ -129,14 +136,24 @@ const ChatWindow = () => {
         </div>
 
         <div className="flex max-w-full">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className="flex-1 p-2 border rounded-md max-sm:w-20"
-            placeholder="Type your message..."
-          />
+          <div className="relative w-full">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
+              className="flex-1 p-2 border rounded-md w-full"
+              placeholder="Type your message..."
+            ></input>
+            <div className="absolute right-0 bottom-0 p-1">
+              <VoiceRecorder
+                size={20}
+                padding={2}
+                inputMessage={handleTranscript}
+                key={key}
+              />
+            </div>
+          </div>
           <button
             onClick={handleSendMessage}
             className="ml-2 bg-gradient-to-tr from-[#88f658db] to-[#426b0c] text-white px-4 py-2 rounded-md"
@@ -145,6 +162,7 @@ const ChatWindow = () => {
           </button>
         </div>
       </div>
+     
     </div>
   );
 };
