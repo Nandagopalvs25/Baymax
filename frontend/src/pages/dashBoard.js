@@ -14,7 +14,7 @@ export default function DashBoard() {
   const [successPopup, setSuccessPopup] = useState(false);
   const [failurePopup, setFailurePopUp] = useState(false);
   const [popUpText, setPopUpText] = useState("");
-  const [transcript, setTranscript] = useState("eweewewe");
+  const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
     let currentLine = 0;
@@ -56,6 +56,7 @@ export default function DashBoard() {
     console.log("success...");
 
     setSuccessPopup(true);
+    setTranscript("");
     setTimeout(() => {
       setSuccessPopup(false);
     }, 3000);
@@ -129,7 +130,7 @@ export default function DashBoard() {
         </div>
       )}
       {transcript && (
-        <div className="absolute right-0 bottom-5 w-screen flex justify-center items-center -z-10">
+        <div className="absolute right-0 bottom-5 w-screen flex justify-center items-center z-10">
           <p className=" bg-black bg-opacity-40 text-white p-1 px-2  max-w-[70rem] rounded-lg">
             {transcript}
           </p>

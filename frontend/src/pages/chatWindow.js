@@ -15,7 +15,7 @@ const ChatWindow = () => {
 
   const sendMessageToApi = async (date, message) => {
     if (!key) {
-      alert("Key not found...");
+        console.log("Key not found...");
       //   setIsLoading(false);
       return;
     }

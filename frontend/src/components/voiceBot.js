@@ -84,15 +84,23 @@ const VoiceRecorder = ({
       if (response?.data) {
         setTranscript("");
         onSuccess();
+        convertTextToSpeech(response.data); // Call the function to convert the response to speech
         return response?.data;
       } else {
         console.error("Invalid response data:", response.data);
         onFailure();
-        // alert("Invalid credentials. Please try again.");
       }
     } catch (error) {
       console.error("Error uploading transcript:", error);
     }
+  };
+
+  const convertTextToSpeech = (text) => {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US"; // Set language (adjust as needed)
+    speech.pitch = 1; // You can modify pitch, rate, and volume
+    speech.rate = 1; 
+    window.speechSynthesis.speak(speech);
   };
 
   React.useEffect(() => {
@@ -113,13 +121,13 @@ const VoiceRecorder = ({
           <FaMicrophone size={size} />
         )}
       </button>
-      {transcript && (
+      {/* {transcript && (
         <div className="absolute right-0 bottom-5 w-screen flex justify-center items-center -z-10">
           <p className=" bg-black bg-opacity-40 text-white p-1 px-2  max-w-[70rem] rounded-lg">
             {transcript}
           </p>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
