@@ -6,6 +6,7 @@ import DashBoard from "./dashBoard";
 import Uploads from "./uploads";
 import ChatWindow from "./chatWindow";
 import VoiceBot from "../components/voiceBot";
+import Report from "./report";
 
 export default function HomePage() {
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function HomePage() {
           <Route path="/uploads" element={<Uploads />} />
           <Route path="/chatBot" element={<ChatWindow />} />
           <Route path="/VoiceBot" element={<VoiceBot />} />
+          <Route path="/report" element={<Report />} />
         </Routes>
       </div>
     </div>

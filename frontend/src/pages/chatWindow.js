@@ -119,7 +119,7 @@ const ChatWindow = () => {
                 <div
                   className={`inline-block p-3 rounded-lg ${
                     msg.type === "user"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-green-500 text-white"
                       : "bg-gray-300 text-black"
                   }`}
                 >
