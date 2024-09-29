@@ -172,7 +172,7 @@ class CreateReportView(APIView):
         input_text = f"Convo history: {convo_history}\nInstructions: {message}"
 
         response = model.generate_content([input_text]).text
-        report = DayReport.objects.create(user=userr, summary=response)
+        report = DayReport.objects.create(user=userr, summary=response,date=date)
         send_mail("Day Update", response, settings.EMAIL_HOST_USER,
                   ["abhiunni9656@gmail.com"])
 

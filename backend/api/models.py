@@ -56,7 +56,7 @@ class Message(models.Model):
 class DayReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     summary = models.TextField()
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
 
     def __str__(self):
         return self.user.username
