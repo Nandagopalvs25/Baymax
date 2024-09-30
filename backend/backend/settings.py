@@ -158,7 +158,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'nandagopalvs12@gmail.com'
-EMAIL_HOST_PASSWORD = 'lhwqnfwkbmxxgqbf'
+EMAIL_HOST_PASSWORD = 'password'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
