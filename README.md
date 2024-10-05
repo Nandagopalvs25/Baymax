@@ -2,6 +2,7 @@
 
 Baymax is a RAG (Retrieval-Augmented Generation) based healthcare application built for Alzheimer's patients. It integrates the Gemini API to facilitate natural conversations with an AI model, allowing patients to query their past interactions. Users can also upload documents, and the system automatically generates daily summaries, which are emailed to their caretakers.
 
+View the project ==> https://youtu.be/p6WMqLtJLS0
 ## Features
 - AI-driven conversational interface for Alzheimer's patients
 - Document upload and retrieval system
