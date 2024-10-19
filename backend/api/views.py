@@ -34,7 +34,7 @@ class RecordView(APIView):
         name = request.data["name"]
         url = request.data["url"]
         # record_type=request.data["record_type"]
-        genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+        genai.configure(api_key="key")
         generation_config = {
             "temperature": 1,
             "top_p": 0.95,
@@ -103,7 +103,7 @@ class AiChatView(APIView):
                 "max_output_tokens": 8192,
                 "response_mime_type": "text/plain",
             }
-            genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+            genai.configure(api_key="key")
             model = genai.GenerativeModel(
                 model_name="gemini-1.5-flash",
                 system_instruction="""You are a ai companion, talk to the user normally, and if the user asks any question about himself you can refere to the context provided. Be a good listener and respons appropriately based on the users message, for questions related to the user refer the chat_history""",
@@ -133,7 +133,7 @@ class AiChatView(APIView):
             "max_output_tokens": 8192,
             "response_mime_type": "text/plain",
         }
-        genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+        genai.configure(api_key="key")
         model = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
             system_instruction="""You are a ai companion, talk to the user normally, and if the user asks any question about himself you can refere to the context provided. Be a good listener and respons appropriately based on the users message, for questions related to the user refer the chat_history""",
@@ -154,7 +154,7 @@ class CreateReportView(APIView):
         for i in messages:
             convo_history = convo_history+i.content
         print(convo_history)
-        genai.configure(api_key="AIzaSyAReSsBnxu2I5DXaqfLtmOq7Y9Tfa0Wjsg")
+        genai.configure(api_key="key")
         generation_config = {
             "temperature": 1,
             "top_p": 0.95,
