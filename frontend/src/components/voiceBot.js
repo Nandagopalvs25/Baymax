@@ -4,6 +4,7 @@ import { BsFillStopCircleFill } from "react-icons/bs";
 import axios from "axios";
 
 const VoiceRecorder = ({
+    
   padding,
   size,
   inputMessage = () => {},
